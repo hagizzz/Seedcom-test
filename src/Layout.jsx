@@ -14,34 +14,42 @@ function Layout() {
     {
       title: "Khuyến mãi HOT",
       icon: "",
+      id: "menu1",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
     {
       title: "MenuItem",
       icon: "",
+      id: "menu2",
     },
   ];
 
@@ -308,18 +316,21 @@ function Layout() {
     },
   ];
 
-  const [bgColor, setBgColor] = useState(false);
-  const [title, setTitle] = useState("");
+  //   const [bgColor, setBgColor] = useState(false);
+  //   const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("menu1");
 
-  function onActive() {
-    setBgColor(true);
-  }
+  //   function onActive() {
+  //     setAddress("menu2");
+  //   }
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
       console.log(scrollY);
-      if (scrollY >= 400) {
-        onActive();
+      if (scrollY < 400) {
+        setAddress("menu1");
+      } else if (scrollY >= 400) {
+        setAddress("menu2");
       }
     });
     // return () => window.removeEventListener("scroll");
@@ -334,33 +345,27 @@ function Layout() {
           flexDirection: "row",
         }}
       >
-        <Stack width={"20%"} gap={2}>
+        <Stack width={"20%"} gap={2} position={"fixed"}>
           {leftItems.map((item, index) => (
-            <Stack
-              key={index}
-              bgcolor={item.title == title && bgColor ? "red" : ""}
-            >
-              <Button
-                onClick={() => {
-                  setTitle(item.title);
-                  setBgColor(true);
-                }}
-              >
-                <Stack>
-                  <Avatar>item</Avatar>
-                  <Typography variant="body1" color="initial">
-                    {item.title}
-                  </Typography>
-                </Stack>
-              </Button>
+            <Stack key={index} bgcolor={item.id == address ? "red" : ""}>
+              <a href={`#${item.id}`}>
+                <Button>
+                  <Stack>
+                    <Avatar>item</Avatar>
+                    <Typography variant="body1" color="initial">
+                      {item.title}
+                    </Typography>
+                  </Stack>
+                </Button>
+              </a>
             </Stack>
           ))}
         </Stack>
 
-        <Stack gap={2}>
+        <Stack gap={2} id="menu1" ml={"25%"}>
           <Stack>
             {menu1.map((item, index) => (
-              <Stack key={index} bgcolor={bgColor && title ? "red" : ""}>
+              <Stack key={index} bgcolor={address == "menu1" ? "red" : ""}>
                 <Typography variant="body1" color="initial">
                   {item.subHeader}
                 </Typography>
@@ -386,9 +391,9 @@ function Layout() {
           <Divider />
 
           <Stack>
-            <Stack>
+            <Stack id="menu2">
               {menu2.map((item, index) => (
-                <Stack key={index}>
+                <Stack key={index} bgcolor={address == "menu2" ? "red" : ""}>
                   <Typography variant="body1" color="initial">
                     {item.subHeader}
                   </Typography>
