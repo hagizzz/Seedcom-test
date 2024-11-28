@@ -1,13 +1,7 @@
-import {
-  Container,
-  Typography,
-  Stack,
-  Avatar,
-  Grid2,
-  Button,
-} from "@mui/material";
+import { Typography, Stack, Avatar, Grid2, Button } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
+import icon from "./assets/item.png";
 
 function Layout() {
   const leftItems = [
@@ -17,39 +11,39 @@ function Layout() {
       id: "menu1",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
       id: "menu2",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
     {
-      title: "MenuItem",
+      title: "Menu item",
       icon: "",
-      id: "menu2",
+      id: "menu",
     },
   ];
 
@@ -155,81 +149,6 @@ function Layout() {
     },
   ];
 
-  //   const menu2 = [
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //     {
-  //       title: "MenuItem",
-  //       icon: "",
-  //     },
-  //   ];
-
   const menu2 = [
     {
       subHeader: "Thế giới trái cây",
@@ -316,111 +235,163 @@ function Layout() {
     },
   ];
 
-  //   const [bgColor, setBgColor] = useState(false);
-  //   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("menu1");
 
-  //   function onActive() {
-  //     setAddress("menu2");
-  //   }
-
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      console.log(scrollY);
-      if (scrollY < 400) {
-        setAddress("menu1");
-      } else if (scrollY >= 400) {
-        setAddress("menu2");
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          if (scrollY < 800) {
+            setAddress("menu1");
+          } else {
+            setAddress("menu2");
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
-    });
-    // return () => window.removeEventListener("scroll");
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <Container maxWidth="sm">
-      <Stack
-        width={"100%"}
-        sx={{
-          gap: 2,
-          flexDirection: "row",
-        }}
-      >
-        <Stack width={"20%"} gap={2} position={"fixed"}>
-          {leftItems.map((item, index) => (
-            <Stack key={index} bgcolor={item.id == address ? "red" : ""}>
-              <a href={`#${item.id}`}>
-                <Button>
-                  <Stack>
-                    <Avatar>item</Avatar>
-                    <Typography variant="body1" color="initial">
-                      {item.title}
-                    </Typography>
-                  </Stack>
-                </Button>
-              </a>
+    <Grid2 m={1}>
+      <Stack width={"25%"} position={"fixed"}>
+        {leftItems.map((item, index) => (
+          <Stack
+            key={index}
+            bgcolor={item.id == address ? "#E6F1FF" : ""}
+            sx={{
+              borderTopLeftRadius: 8,
+              borderBottomLeftRadius: 8,
+            }}
+          >
+            <a href={`#${item.id}`}>
+              <Button
+                fullWidth
+                sx={{
+                  textTransform: "none",
+                }}
+              >
+                <Stack alignItems={"center"}>
+                  <Avatar src={icon}>item</Avatar>
+                  <Typography
+                    variant="body1"
+                    color={item.id == address ? "primary" : "initial"}
+                  >
+                    {item.title}
+                  </Typography>
+                </Stack>
+              </Button>
+            </a>
+          </Stack>
+        ))}
+      </Stack>
+
+      <Stack id="menu1" ml={"25%"}>
+        <Stack>
+          {menu1.map((item, index) => (
+            <Stack
+              key={index}
+              bgcolor={address == "menu1" ? "#E6F1FF" : ""}
+              px={2}
+              py={1}
+            >
+              <Typography variant="subtitle2" fontWeight={700} pb={2}>
+                {item.subHeader}
+              </Typography>
+              <Grid2 width={"100%"} container spacing={3}>
+                {item.subItem.map((subItem, index) => (
+                  <Grid2
+                    size={4}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    key={index}
+                  >
+                    <Stack alignItems={"center"}>
+                      <Avatar src={icon}>item</Avatar>
+                      <Typography
+                        variant="body1"
+                        color="initial"
+                        textAlign={"center"}
+                      >
+                        {subItem.title}
+                      </Typography>
+                    </Stack>
+                  </Grid2>
+                ))}
+              </Grid2>
+              {index < menu1.length - 1 && <Divider sx={{ my: 2 }} />}
+              {/* <Divider /> */}
             </Stack>
           ))}
+          <Divider />
         </Stack>
 
-        <Stack gap={2} id="menu1" ml={"25%"}>
-          <Stack>
-            {menu1.map((item, index) => (
-              <Stack key={index} bgcolor={address == "menu1" ? "red" : ""}>
-                <Typography variant="body1" color="initial">
+        <Stack>
+          <Stack id="menu2">
+            {menu2.map((item, index) => (
+              <Stack
+                key={index}
+                bgcolor={address == "menu2" ? "#E6F1FF" : ""}
+                px={2}
+                py={1}
+              >
+                <Typography variant="subtitle2" fontWeight={700}>
                   {item.subHeader}
                 </Typography>
+
                 <Grid2 width={"100%"} container spacing={3}>
-                  {item.subItem.map((subItem, index) => (
+                  {item.items.map((subItem, index) => (
                     <Grid2
                       size={4}
                       justifyContent={"center"}
                       alignItems={"center"}
                       key={index}
+                      my={2}
                     >
-                      <Avatar>item</Avatar>
-                      <Typography variant="body1" color="initial">
-                        {subItem.title}
-                      </Typography>
+                      <Stack alignItems={"center"}>
+                        <Avatar src={icon}>item</Avatar>
+                        <Typography
+                          variant="body1"
+                          color="initial"
+                          textAlign={"center"}
+                        >
+                          {subItem.title}
+                        </Typography>
+                      </Stack>
                     </Grid2>
                   ))}
                 </Grid2>
+                <Button
+                  fullWidth
+                  sx={{
+                    textTransform: "none",
+                    bgcolor: "#E6F1FF",
+                    borderRadius: 10,
+                    my: 1,
+                    mb: 2,
+                  }}
+                >
+                  <Typography variant="body1" color="primary">
+                    Xem tất cả
+                  </Typography>
+                </Button>
               </Stack>
             ))}
           </Stack>
-
-          <Divider />
-
-          <Stack>
-            <Stack id="menu2">
-              {menu2.map((item, index) => (
-                <Stack key={index} bgcolor={address == "menu2" ? "red" : ""}>
-                  <Typography variant="body1" color="initial">
-                    {item.subHeader}
-                  </Typography>
-                  <Grid2 width={"100%"} container spacing={3}>
-                    {item.items.map((subItem, index) => (
-                      <Grid2
-                        size={4}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        key={index}
-                        my={2}
-                      >
-                        <Avatar>item</Avatar>
-                        <Typography variant="body1" color="initial">
-                          {subItem.title}
-                        </Typography>
-                      </Grid2>
-                    ))}
-                  </Grid2>
-                </Stack>
-              ))}
-            </Stack>
-            <Divider />
-          </Stack>
         </Stack>
       </Stack>
-    </Container>
+      {/* </Stack> */}
+    </Grid2>
   );
 }
 
